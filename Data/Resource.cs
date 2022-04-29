@@ -2,7 +2,7 @@ namespace Watchtower.Data;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-public class Resource {
+public class WatchtowerResource {
     /* Representation of a resource. */
     public ObjectId Id { get; set; }
     [BsonElement("host")]
