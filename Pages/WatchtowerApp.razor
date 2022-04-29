@@ -1,0 +1,50 @@
+@page "/watchtower"
+@using MongoDB.Bson
+@using MongoDB.Driver
+@using Watchtower.Data
+
+<PageTitle>Watchtower</PageTitle>
+
+<h1>Watchtower</h1>
+
+@if (hostcount == null) {
+    <p>Loading...</p>
+} else {
+    <p>@hostcount @(hostcount == 1 ? "host" : "hosts")</p>
+    @foreach (var host in hosts)
+    {
+        <div>
+            <h3>@host.hostname</h3>
+        </div>
+    }
+}
+
+@code {
+    private MongoClient client { get; set; }
+    public IMongoDatabase database { get; set; }
+    public IEnumerable<WatchtowerHost> hosts { get; set; }
+    public int? hostcount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var currentdir = Directory.GetCurrentDirectory();
+        var credentials = System.IO.File.ReadAllText($"{currentdir}/mongodb.txt");
+
+        var settings = MongoClientSettings.FromConnectionString($"mongodb+srv://{credentials}@watchtower.tbosq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+        settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+        client = new MongoClient(settings);
+        database = client.GetDatabase("Main");
+        hosts = database.GetCollection<WatchtowerHost>("Hosts")
+            .Find(x => true)
+            .ToList();
+        hostcount = hosts.Count();
+    }
+
+    protected async void AddHost(MongoClient client)
+    {
+        var host = new WatchtowerHost
+        {
+            hostname = "New Host"
+        };
+    }
+}
