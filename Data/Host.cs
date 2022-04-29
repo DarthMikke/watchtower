@@ -8,9 +8,9 @@ public class WatchtowerHost {
     public string hostname { get; set; }
 
     public List<Resource> Resources(MongoClient client) {
-        var db = client.GetDatabase("main");
-        var collection = db.GetCollection<Resource>("resources");
-        var filter = Builders<Resource>.Filter.Eq("hostId", this.Id);
+        var db = client.GetDatabase("Main");
+        var collection = db.GetCollection<Resource>("Resources");
+        var filter = new BsonDocument("host", this.Id);
         return collection.Find(filter).ToList();
     }
 }

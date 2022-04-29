@@ -10,12 +10,18 @@
 @if (hostcount == null) {
     <p>Loading...</p>
 } else {
-    <p>@hostcount @(hostcount == 1 ? "host" : "hosts")</p>
     @foreach (var host in hosts)
     {
         <div>
             <h3>@host.hostname</h3>
+            <p>@host.Resources(client).Count @(host.Resources(client).Count == 1 ? "resource" : "resources")</p>
         </div>
+        @foreach (var resource in host.Resources(client))
+        {
+            <div>
+                <h4>@resource.method @resource.path</h4>
+            </div>
+        }
     }
 }
 
