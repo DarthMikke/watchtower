@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/mjw/Documents/Koding/Watchtower/Watchtower.Crawler/Watchtower.Crawler.csproj": {}
+  },
+  "projects": {
+    "/Users/mjw/Documents/Koding/Watchtower/Watchtower.Crawler/Watchtower.Crawler.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mjw/Documents/Koding/Watchtower/Watchtower.Crawler/Watchtower.Crawler.csproj",
+        "projectName": "Watchtower.Crawler",
+        "projectPath": "/Users/mjw/Documents/Koding/Watchtower/Watchtower.Crawler/Watchtower.Crawler.csproj",
+        "packagesPath": "/Users/mjw/.nuget/packages/",
+        "outputPath": "/Users/mjw/Documents/Koding/Watchtower/Watchtower.Crawler/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mjw/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/6.0.104_1/libexec/sdk/6.0.104/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
