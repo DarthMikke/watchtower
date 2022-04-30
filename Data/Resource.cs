@@ -11,4 +11,11 @@ public class WatchtowerResource {
     public string path { get; set; }
     public int expectedStatus { get; set; }
     public int expectedResponseTime { get; set; }
+
+    public List<WatchtowerRequest> Requests(MongoClient client) {
+        var db = client.GetDatabase("Main");
+        var collection = db.GetCollection<WatchtowerRequest>("Requests");
+        var filter = new BsonDocument("resource", this.Id);
+        return collection.Find(filter).ToList();
+    }
 }
