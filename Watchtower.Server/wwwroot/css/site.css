@@ -103,3 +103,9 @@ button.icon-rotated {
     transform: rotate(0);
     -webkit-transform: rotate(0);
 }*/   
+
+.nav-link .bi {
+    width: 24px;
+    padding: auto;
+    scale: 125%;
+}
