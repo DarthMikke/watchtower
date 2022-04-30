@@ -1,17 +1,27 @@
 ﻿using System;
 using Watchtower.Data;
+using Watchtower.Crawler;
 
-// See https://aka.ms/new-console-template for more information
-static void main() {
-    Console.WriteLine("Hello, World!");
+// Fetch credentials
+// Get current directory
+var currentDirectory = System.IO.Directory.GetCurrentDirectory();
+var filename = $"{currentDirectory}/mongodb.txt";
 
-    // Find last request
-    // Return if too short time has passed since last execution
-    // Get hosts
-    // For every host, get resources
-    // For every resource:
-    // - ping it
-    // - upload the result
+Console.WriteLine($"Looking for credentials in {filename}...");
+
+if (!System.IO.File.Exists(filename)) {
+    Console.WriteLine("No credentials file was found. Exiting.");
+    System.Environment.Exit(-1);
 }
 
-main();
+string connectionString = System.IO.File.ReadAllText(filename);
+
+var crawler = new Crawler(connectionString);
+
+// Find last request
+// Return if too short time has passed since last execution
+// Get hosts
+// For every host, get resources
+// For every resource:
+// - ping it
+// - upload the result
