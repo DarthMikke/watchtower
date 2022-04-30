@@ -62,3 +62,44 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+button.icon-unrotated {
+    animation-duration: 0.5s;
+    animation-name: unrotate-icon;
+}
+
+button.icon-rotated {
+    animation-duration: 0.5s;
+    animation-name: rotate-icon;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
+
+@keyframes rotate-icon {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+    }
+}
+
+@keyframes unrotate-icon {
+    from {
+        transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+    }
+
+    to {
+        transform: rotate(0);
+        -webkit-transform: rotate(0);
+    }
+}
+
+/*button {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+}*/   

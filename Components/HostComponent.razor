@@ -9,9 +9,7 @@
 
         @foreach (var resource in Resources)
         {
-            <div>
-                <h4>@resource.method @resource.path</h4>
-            </div>
+            <ResourceComponent client=@client resource=@resource />
         }
     </div>
 }

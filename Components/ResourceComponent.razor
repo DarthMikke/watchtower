@@ -1,0 +1,83 @@
+@namespace Watchtower
+@using Watchtower.Data
+@using MongoDB.Driver
+
+@if (loaded) {
+    <div>
+        <h3>
+            <button class=@IconClass @onclick="ToggleCollapsed">
+                <i class="bi-caret-down-fill" />
+            </button>
+            @resource.method @resource.path
+        </h3>
+
+        @if (this.Collapsed == false || this.Collapsed == null) {
+            @if (Requests.Count > 0) {
+                <table class="table">
+                    <thead>
+                        <th>Dato</th>
+                        <th>Status</th>
+                        <th>Responstid</th>
+                    </thead>
+                    <tbody>
+                @foreach (var request in Requests)
+                {
+                    <tr>
+                        <td>@request.Timestamp</td>
+                        <td
+                        class=@(StatusTextClass(request))>@request.Status (@resource.expectedStatus)</td>
+                        <td
+                        class=@(ResponseTimeTextClass(request))
+                        >@request.ResponseTime ms (@resource.expectedResponseTime ms)</td>
+                    </tr>
+                }
+                    </tbody>
+                </table>
+            } else {
+                <em>Denne ressursen vart aldri sjekka</em>
+            }
+        }
+    </div>
+}
+
+@code {
+    [ParameterAttribute]
+    public WatchtowerResource? resource { get; set; }
+    [ParameterAttribute]
+    public MongoClient? client { get; set; }
+    public List<WatchtowerRequest> Requests { get; set; }
+    private bool loaded { get; set; }
+
+    private bool? Collapsed { get; set; }
+
+    public string IconClass { get {
+        if (this.Collapsed == null) return "btn";
+        return "btn " + (this.Collapsed.Value ? "icon-rotated" : "icon-unrotated");
+    } }
+
+    public string ResponseTimeTextClass(WatchtowerRequest request) {
+        if (request.ResponseTime == null) {
+            return "text-danger";
+        }
+        return request.ResponseTime > resource.expectedResponseTime ? "text-warning" : "text-success";
+    }
+
+    public string StatusTextClass(WatchtowerRequest request) {
+        if (request.Status == null) {
+            return "text-danger";
+        }
+        return request.Status == resource.expectedStatus ? "text-success" : "text-warning";
+    }
+
+    private void ToggleCollapsed()
+    {
+        if (this.Collapsed == null) { this.Collapsed = false; }
+        this.Collapsed = !this.Collapsed;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Requests = resource.Requests(client);
+        loaded = true;
+    }
+}
