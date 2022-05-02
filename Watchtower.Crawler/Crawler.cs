@@ -50,6 +50,8 @@ public class Crawler
     }
 
     public async Task<WatchtowerRequest?> Poll(WatchtowerHost host, WatchtowerResource resource) {
+        // TODO: Move HTTP client initialization to separate method.
+        // TODO: Do not follow redirect.
         http.DefaultRequestHeaders.Add("User-Agent", "Watchtower");
 
         DateTime start = DateTime.Now;

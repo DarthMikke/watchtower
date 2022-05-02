@@ -4,6 +4,8 @@ using Watchtower.Crawler;
 
 class Program {
     static void Main(string[] args) {
+        // @TODO: Check for the -h / --help command line flag
+
         // Fetch credentials
         // Get current directory
         var currentDirectory = System.IO.Directory.GetCurrentDirectory();
@@ -37,7 +39,8 @@ class Program {
             {
                 Console.Write($"{resource.method} {host.hostname}{resource.path}... ");
                 bool canPoll = crawler.canCrawl(resource);
-
+                
+                // TODO: Check for command line flags.
                 if (!canPoll)
                 {
                     // - Return if too short time has passed since last execution
