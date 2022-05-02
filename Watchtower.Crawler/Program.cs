@@ -18,10 +18,25 @@ string connectionString = System.IO.File.ReadAllText(filename);
 
 var crawler = new Crawler(connectionString);
 
-// Find last request
-// Return if too short time has passed since last execution
 // Get hosts
+crawler.LoadHosts();
 // For every host, get resources
-// For every resource:
-// - ping it
-// - upload the result
+var hostCount = crawler.hosts.Count();
+Console.WriteLine($"Found {hostCount} {(hostCount == 1 ? "host" : "hosts")}.");
+foreach (var host in crawler.hosts)
+{
+    var resources = host.Resources(crawler.client);
+    var resourceCount = resources.Count();
+    Console.WriteLine($"Found {resourceCount} resource{(resourceCount == 1 ? "" : "s")} @ {host.hostname} .");
+    // For every resource:
+    // - Find last request
+
+    foreach (var resource in resources)
+    {
+        Console.Write($"{resource.method} {host.hostname}{resource.path}... ");
+        Console.WriteLine("Polling.");
+    }
+    // - Return if too short time has passed since last execution
+    // - ping it
+    // - upload the result
+}
