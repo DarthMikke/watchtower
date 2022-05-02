@@ -1,10 +1,13 @@
 namespace Watchtower.Crawler;
 using MongoDB.Driver;
+using MongoDB.Bson;
+using Watchtower.Data;
 
 public class Crawler
 {
-    private IMongoClient client;
+    public IMongoClient client;
     private IMongoDatabase database;
+    public IEnumerable<WatchtowerHost>? hosts;
     
     public Crawler(string connectionString) {
         var settings = MongoClientSettings.FromConnectionString(connectionString);
@@ -13,8 +16,8 @@ public class Crawler
         try {
             client = new MongoClient(settings);
         } catch {
-            Console.WriteLine("An error occured during connecting to the database. Check your crednetials or network connection.");
-            throw new Exception();
+            Console.WriteLine("An error occured during connecting to the database. Check your credentials or network connection.");
+            throw;
         }
 
         database = client.GetDatabase("Main");
@@ -23,4 +26,14 @@ public class Crawler
     }
 
     
+
+    public void LoadHosts() {
+        try {
+            hosts = database.GetCollection<WatchtowerHost>("Hosts")
+                .Find(x => true)
+                .ToList();
+        } catch {
+            throw;
+        }
+    }
 }
