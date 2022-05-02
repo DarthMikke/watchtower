@@ -12,9 +12,10 @@ public class Crawler
     private IMongoDatabase database;
     public IEnumerable<WatchtowerHost>? hosts;
 
-    private static readonly HttpClient http = new HttpClient();
+    private HttpClient http;
     
     public Crawler(string connectionString) {
+        // Initialize MongoDB connection
         var settings = MongoClientSettings.FromConnectionString(connectionString);
         settings.ServerApi = new ServerApi(ServerApiVersion.V1);
 
@@ -28,6 +29,12 @@ public class Crawler
         database = client.GetDatabase("Main");
 
         Console.WriteLine("Connected successfully.");
+
+        // Initialize HTTP client
+        var httpHandler = new HttpClientHandler();
+        httpHandler.AllowAutoRedirect = false;
+        http = new HttpClient(httpHandler);
+        http.DefaultRequestHeaders.Add("User-Agent", "Watchtower");
     }
 
     public bool canCrawl(WatchtowerResource resource) {
@@ -50,10 +57,6 @@ public class Crawler
     }
 
     public async Task<WatchtowerRequest?> Poll(WatchtowerHost host, WatchtowerResource resource) {
-        // TODO: Move HTTP client initialization to separate method.
-        // TODO: Do not follow redirect.
-        http.DefaultRequestHeaders.Add("User-Agent", "Watchtower");
-
         DateTime start = DateTime.Now;
         HttpResponseMessage response = await http.GetAsync($"http://{host.hostname}{resource.path}");
         var status = (int)response.StatusCode;
