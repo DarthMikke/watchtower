@@ -53,7 +53,15 @@ class Program {
                 response = crawler.Poll(host, resource).Result;
 
                 Console.WriteLine($"Got {response.Status} ({response.ResponseTime} ms), expected {resource.expectedStatus} ({resource.expectedResponseTime} ms).");
+
                 // - upload the result
+                Console.Write("Uploading the result...");
+                try {
+                    crawler.uploadResponse(response);
+                    Console.WriteLine("OK.");
+                } catch {
+                    Console.WriteLine("Fail.");
+                }
             }
         }
     }

@@ -12,6 +12,8 @@ public class Crawler
     private IMongoDatabase database;
     public IEnumerable<WatchtowerHost>? hosts;
 
+    public IMongoCollection<WatchtowerRequest> requests;
+
     private HttpClient http;
     
     public Crawler(string connectionString) {
@@ -29,6 +31,8 @@ public class Crawler
         database = client.GetDatabase("Main");
 
         Console.WriteLine("Connected successfully.");
+
+        requests = database.GetCollection<WatchtowerRequest>("Requests");
 
         // Initialize HTTP client
         var httpHandler = new HttpClientHandler();
@@ -69,5 +73,10 @@ public class Crawler
             ResponseTime = duration,
             Status = status
         };
+    }
+
+    public void uploadResponse(WatchtowerRequest response)
+    {
+        requests.InsertOne(response);
     }
 }
