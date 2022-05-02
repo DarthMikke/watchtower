@@ -2,8 +2,10 @@
 using Watchtower.Data;
 using Watchtower.Crawler;
 
-class Program {
-    static void Main(string[] args) {
+class Program
+{
+    static void Main(string[] args)
+    {
         // @TODO: Check for the -h / --help command line flag
 
         // Fetch credentials
@@ -13,7 +15,8 @@ class Program {
 
         Console.WriteLine($"Looking for credentials in {filename}...");
 
-        if (!System.IO.File.Exists(filename)) {
+        if (!System.IO.File.Exists(filename))
+        {
             Console.WriteLine("No credentials file was found. Exiting.");
             System.Environment.Exit(-1);
         }
@@ -56,10 +59,13 @@ class Program {
 
                 // - upload the result
                 Console.Write("Uploading the result...");
-                try {
+                try
+                {
                     crawler.uploadResponse(response);
                     Console.WriteLine("OK.");
-                } catch {
+                }
+                catch
+                {
                     Console.WriteLine("Fail.");
                 }
             }

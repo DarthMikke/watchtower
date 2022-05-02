@@ -16,7 +16,8 @@ public class Crawler
 
     private HttpClient http;
     
-    public Crawler(string connectionString) {
+    public Crawler(string connectionString)
+    {
         // Initialize MongoDB connection
         var settings = MongoClientSettings.FromConnectionString(connectionString);
         settings.ServerApi = new ServerApi(ServerApiVersion.V1);
@@ -41,7 +42,8 @@ public class Crawler
         http.DefaultRequestHeaders.Add("User-Agent", "Watchtower");
     }
 
-    public bool canCrawl(WatchtowerResource resource) {
+    public bool canCrawl(WatchtowerResource resource)
+    {
         var last = DateTime.Now.AddHours(-1.0);
         var newRequests = database.GetCollection<WatchtowerRequest>("Requests")
             .Find(x => x.ResourceId == resource.Id && x.Timestamp >= last)
@@ -50,7 +52,8 @@ public class Crawler
         return newRequests.Count < 1;
     }
 
-    public void LoadHosts() {
+    public void LoadHosts()
+    {
         try {
             hosts = database.GetCollection<WatchtowerHost>("Hosts")
                 .Find(x => true)
@@ -60,7 +63,8 @@ public class Crawler
         }
     }
 
-    public async Task<WatchtowerRequest?> Poll(WatchtowerHost host, WatchtowerResource resource) {
+    public async Task<WatchtowerRequest?> Poll(WatchtowerHost host, WatchtowerResource resource)
+    {
         DateTime start = DateTime.Now;
         HttpResponseMessage response = await http.GetAsync($"http://{host.hostname}{resource.path}");
         var status = (int)response.StatusCode;

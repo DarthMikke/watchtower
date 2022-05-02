@@ -13,7 +13,8 @@ public class WatchtowerResource {
     public int expectedStatus { get; set; }
     public int expectedResponseTime { get; set; }
 
-    public List<WatchtowerRequest> Requests(IMongoClient client) {
+    public List<WatchtowerRequest> Requests(IMongoClient client)
+    {
         var db = client.GetDatabase("Main");
         var collection = db.GetCollection<WatchtowerRequest>("Requests");
         var filter = new BsonDocument("resource", this.Id);
