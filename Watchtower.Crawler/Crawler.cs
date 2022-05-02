@@ -1,4 +1,5 @@
 namespace Watchtower.Crawler;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MongoDB.Driver;
@@ -54,7 +55,7 @@ public class Crawler
         DateTime start = DateTime.Now;
         HttpResponseMessage response = await http.GetAsync($"http://{host.hostname}{resource.path}");
         var status = (int)response.StatusCode;
-        var duration = (int)(DateTime.Now.Ticks - start.Ticks);
+        var duration = (int)((DateTime.Now.Ticks - start.Ticks)/TimeSpan.TicksPerMillisecond);
 
         return new WatchtowerRequest {
             Id = new ObjectId(),
