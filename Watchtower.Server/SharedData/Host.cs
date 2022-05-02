@@ -7,7 +7,7 @@ public class WatchtowerHost {
     public ObjectId Id { get; set; }
     public string hostname { get; set; }
 
-    public List<WatchtowerResource> Resources(MongoClient client) {
+    public List<WatchtowerResource> Resources(IMongoClient client) {
         var db = client.GetDatabase("Main");
         var collection = db.GetCollection<WatchtowerResource>("Resources");
         var filter = new BsonDocument("host", this.Id);
