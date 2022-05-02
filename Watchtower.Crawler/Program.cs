@@ -40,14 +40,18 @@ class Program {
 
                 if (!canPoll)
                 {
+                    // - Return if too short time has passed since last execution
                     Console.WriteLine("Polled recently.");
                     continue;
                 }
+                // - ping it
                 Console.WriteLine("Polling.");
+                WatchtowerRequest response;
+                response = crawler.Poll(host, resource).Result;
+
+                Console.WriteLine($"Got {response.Status} ({response.ResponseTime} ms), expected {resource.expectedStatus} ({resource.expectedResponseTime} ms).");
+                // - upload the result
             }
-            // - Return if too short time has passed since last execution
-            // - ping it
-            // - upload the result
         }
     }
 }

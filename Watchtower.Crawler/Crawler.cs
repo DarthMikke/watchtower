@@ -1,4 +1,6 @@
 namespace Watchtower.Crawler;
+using System.Net.Http;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Watchtower.Data;
@@ -8,6 +10,8 @@ public class Crawler
     public IMongoClient client;
     private IMongoDatabase database;
     public IEnumerable<WatchtowerHost>? hosts;
+
+    private static readonly HttpClient http = new HttpClient();
     
     public Crawler(string connectionString) {
         var settings = MongoClientSettings.FromConnectionString(connectionString);
@@ -42,5 +46,22 @@ public class Crawler
         } catch {
             throw;
         }
+    }
+
+    public async Task<WatchtowerRequest?> Poll(WatchtowerHost host, WatchtowerResource resource) {
+        http.DefaultRequestHeaders.Add("User-Agent", "Watchtower");
+
+        DateTime start = DateTime.Now;
+        HttpResponseMessage response = await http.GetAsync($"http://{host.hostname}{resource.path}");
+        var status = (int)response.StatusCode;
+        var duration = (int)(DateTime.Now.Ticks - start.Ticks);
+
+        return new WatchtowerRequest {
+            Id = new ObjectId(),
+            ResourceId = resource.Id,
+            Timestamp = start,
+            ResponseTime = duration,
+            Status = status
+        };
     }
 }
