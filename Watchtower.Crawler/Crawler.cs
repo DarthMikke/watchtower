@@ -25,7 +25,14 @@ public class Crawler
         Console.WriteLine("Connected successfully.");
     }
 
-    
+    public bool canCrawl(WatchtowerResource resource) {
+        var last = DateTime.Now.AddHours(-1.0);
+        var newRequests = database.GetCollection<WatchtowerRequest>("Requests")
+            .Find(x => x.ResourceId == resource.Id && x.Timestamp >= last)
+            .ToList();
+
+        return newRequests.Count < 1;
+    }
 
     public void LoadHosts() {
         try {

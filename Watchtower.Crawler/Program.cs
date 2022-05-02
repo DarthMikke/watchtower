@@ -36,13 +36,13 @@ class Program {
             foreach (var resource in resources)
             {
                 Console.Write($"{resource.method} {host.hostname}{resource.path}... ");
-                /*bool canPoll = crawler.canCrawl(resource);
+                bool canPoll = crawler.canCrawl(resource);
 
                 if (!canPoll)
                 {
                     Console.WriteLine("Polled recently.");
                     continue;
-                }*/
+                }
                 Console.WriteLine("Polling.");
             }
             // - Return if too short time has passed since last execution
