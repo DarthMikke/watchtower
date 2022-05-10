@@ -7,6 +7,10 @@ class Program
     static void Main(string[] args)
     {
         // @TODO: Check for the -h / --help command line flag
+        if (args.Contains("-h") || args.Contains("--help")) {
+            Console.WriteLine("This is a crawler.");
+            return;
+        }
 
         // Fetch credentials
         // Get current directory
