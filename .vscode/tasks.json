@@ -27,15 +27,28 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish crawler for linux-arm",
+            "label": "publish crawler for linux-arm (no build)",
             "command": "tar",
             "type": "shell",
-            "args": ["-czvf", "${workspaceRoot}/published/crawler-linux-arm.tar.gz", "${workspaceRoot}/bin/Release/net6.0/linux-arm/publish"],
+            "args": [
+                "-czvf",
+                "${workspaceRoot}/published/crawler-linux-arm.tar.gz",
+                "${workspaceRoot}/Watchtower.Crawler/bin/Release/net6.0/linux-arm/publish/"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "publish crawler for linux-arm",
+            "command": "echo 'Compressing files…'",
+            "type": "shell",
             "group": "build",
             "presentation": {
                 "reveal": "always"
             },
-            "dependsOn": ["build crawler for linux-arm"]
+            "dependsOn": ["build crawler for linux-arm", "publish crawler for linux-arm (no build)"]
         }
     ]
 }
