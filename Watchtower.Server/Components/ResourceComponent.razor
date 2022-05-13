@@ -11,9 +11,9 @@
             @resource.method @resource.path
         </h3>
 
-        @if (this.Collapsed == false || this.Collapsed == null) {
-            @if (Requests.Count > 0) {
-                <table class="table">
+        @if (true) {
+            @if (Requests.Count() > 0) {
+                <table class=@("table " + ((this.Collapsed == false || this.Collapsed == null) ? "" : "collapsed"))>
                     <thead>
                         <th>Dato</th>
                         <th>Status</th>
@@ -48,7 +48,7 @@
     public List<WatchtowerRequest> Requests { get; set; }
     private bool loaded { get; set; }
 
-    private bool? Collapsed { get; set; }
+    private bool? Collapsed { get; set; } = false;
 
     public string IconClass { get {
         if (this.Collapsed == null) return "btn";
@@ -78,6 +78,11 @@
     protected override async Task OnInitializedAsync()
     {
         Requests = resource.Requests(client);
+        Requests.Sort(delegate(WatchtowerRequest a, WatchtowerRequest b)
+        {
+            return -a.Timestamp.CompareTo(b.Timestamp);
+        }
+        );
         loaded = true;
     }
 }

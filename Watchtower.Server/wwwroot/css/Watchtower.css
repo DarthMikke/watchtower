@@ -1,0 +1,25 @@
+table.collapsed {
+    height: 0px;
+}
+
+table {
+    width: fit-content !important;
+    height: 500px;
+    transition: all 0.5s;
+    display: block;
+    overflow-y: scroll;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background: white;
+}
+
+thead tr {
+    border-bottom: 1px solid #666;
+}
+
+tbody {
+    height: fit-content;
+}
