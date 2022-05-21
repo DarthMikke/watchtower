@@ -3,18 +3,38 @@
 @using MongoDB.Driver
 
 @if (loaded) {
-    <div>
-        <h3>
+    <tr>
+        <td>
             <button class=@IconClass @onclick="ToggleCollapsed">
                 <i class="bi-caret-down-fill" />
             </button>
+        </td>
+        <td>
             @resource.method @resource.path
-        </h3>
-
-        @if (true) {
+        </td>
+        <td>
+            @Requests.First().Status
+        </td>
+        <td>
+            @resource.expectedStatus
+        </td>
+        <td>
+            @Requests.First().ResponseTime
+        </td>
+        <td>
+            @resource.expectedResponseTime
+        </td>
+        <td>
+            @resource.method @resource.path
+        </td>
+    </tr>
+    <tr>
+        <td colspan=7>
+        @if (!Collapsed) {
             <RequestsTable requests=@Requests collapsed=@Collapsed resource=@resource />
         }
-    </div>
+        </td>
+    </tr>
 }
 
 @code {

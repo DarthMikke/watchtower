@@ -10,10 +10,12 @@
 @if (hostcount == null) {
     <p>Loading...</p>
 } else {
+    <table>
     @foreach (var host in hosts)
     {
         <HostComponent host=@host client=@client />
     }
+    </table>
 }
 
 @code {

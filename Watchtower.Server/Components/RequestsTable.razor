@@ -2,7 +2,7 @@
 @using Watchtower.Data
 
 @if (requests.Count() > 0) {
-    <table class=@("table " + ((this.collapsed == false || this.collapsed == null) ? "" : "collapsed"))>
+    <table class=@("table requests " + ((this.collapsed == false || this.collapsed == null) ? "" : "collapsed"))>
         <thead>
             <th>Dato</th>
             <th>Status</th>

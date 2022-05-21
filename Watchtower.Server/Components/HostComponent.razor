@@ -3,18 +3,30 @@
 @using MongoDB.Driver
 
 @if (loaded) {
-    <div>
-        <h3>@host.hostname</h3>
-        <p>
+    <tr>
+        <td>
+            <button class="btn">
+                <i class="bi-caret-down-fill" />
+            </button>
+        </td>
+        <td>@host.hostname</td>
+        <td colspan=5>
             <span>@Resources.Count @(Resources.Count == 1 ? "resource" : "resources")</span>
-            <button class="btn btn-sm btn-primary"><i class="bi bi-plus-circle"/></button>
-        </p>
-
-        @foreach (var resource in Resources)
-        {
-            <ResourceComponent client=@client resource=@resource />
-        }
-    </div>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Side</td>
+        <td>Status</td>
+        <td>Forventa</td>
+        <td>Svartid</td>
+        <td>Forventa</td>
+        <td>URL</td>
+    </tr>
+    @foreach (var resource in Resources)
+    {
+        <ResourceComponent client=@client resource=@resource />
+    }
 }
 
 @code {
