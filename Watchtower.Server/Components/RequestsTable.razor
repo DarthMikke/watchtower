@@ -1,0 +1,52 @@
+@namespace Watchtower
+@using Watchtower.Data
+
+@if (requests.Count() > 0) {
+    <table class=@("table " + ((this.collapsed == false || this.collapsed == null) ? "" : "collapsed"))>
+        <thead>
+            <th>Dato</th>
+            <th>Status</th>
+            <th>Responstid</th>
+        </thead>
+        <tbody>
+    @foreach (var request in requests)
+    {
+        <tr>
+            <td>@request.Timestamp</td>
+            <td
+            class=@(StatusTextClass(request))>@request.Status (@resource.expectedStatus)</td>
+            <td
+            class=@(ResponseTimeTextClass(request))
+            >@request.ResponseTime ms (@resource.expectedResponseTime ms)</td>
+        </tr>
+    }
+        </tbody>
+    </table>
+} else {
+    <em>Denne ressursen vart aldri sjekka</em>
+}
+
+@code {
+    [ParameterAttribute]
+    public bool collapsed { get; set; }
+
+    [ParameterAttribute]
+    public List<WatchtowerRequest> requests { get; set; }
+
+    [ParameterAttribute]
+    public WatchtowerResource resource { get; set; }
+
+    public string ResponseTimeTextClass(WatchtowerRequest request) {
+        if (request.ResponseTime == null) {
+            return "text-danger";
+        }
+        return request.ResponseTime > resource.expectedResponseTime ? "text-warning" : "text-success";
+    }
+
+    public string StatusTextClass(WatchtowerRequest request) {
+        if (request.Status == null) {
+            return "text-danger";
+        }
+        return request.Status == resource.expectedStatus ? "text-success" : "text-warning";
+    }
+}

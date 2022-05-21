@@ -12,30 +12,7 @@
         </h3>
 
         @if (true) {
-            @if (Requests.Count() > 0) {
-                <table class=@("table " + ((this.Collapsed == false || this.Collapsed == null) ? "" : "collapsed"))>
-                    <thead>
-                        <th>Dato</th>
-                        <th>Status</th>
-                        <th>Responstid</th>
-                    </thead>
-                    <tbody>
-                @foreach (var request in Requests)
-                {
-                    <tr>
-                        <td>@request.Timestamp</td>
-                        <td
-                        class=@(StatusTextClass(request))>@request.Status (@resource.expectedStatus)</td>
-                        <td
-                        class=@(ResponseTimeTextClass(request))
-                        >@request.ResponseTime ms (@resource.expectedResponseTime ms)</td>
-                    </tr>
-                }
-                    </tbody>
-                </table>
-            } else {
-                <em>Denne ressursen vart aldri sjekka</em>
-            }
+            <RequestsTable requests=@Requests collapsed=@Collapsed resource=@resource />
         }
     </div>
 }
@@ -48,26 +25,12 @@
     public List<WatchtowerRequest> Requests { get; set; }
     private bool loaded { get; set; }
 
-    private bool? Collapsed { get; set; } = false;
+    private bool Collapsed { get; set; } = true;
 
     public string IconClass { get {
         if (this.Collapsed == null) return "btn";
-        return "btn " + (this.Collapsed.Value ? "icon-rotated" : "icon-unrotated");
+        return "btn " + (this.Collapsed ? "icon-rotated" : "icon-unrotated");
     } }
-
-    public string ResponseTimeTextClass(WatchtowerRequest request) {
-        if (request.ResponseTime == null) {
-            return "text-danger";
-        }
-        return request.ResponseTime > resource.expectedResponseTime ? "text-warning" : "text-success";
-    }
-
-    public string StatusTextClass(WatchtowerRequest request) {
-        if (request.Status == null) {
-            return "text-danger";
-        }
-        return request.Status == resource.expectedStatus ? "text-success" : "text-warning";
-    }
 
     private void ToggleCollapsed()
     {
