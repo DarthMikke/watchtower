@@ -44,7 +44,7 @@ public class Crawler
 
     public bool canCrawl(WatchtowerResource resource)
     {
-        var last = DateTime.Now.AddHours(-1.0);
+        var last = DateTime.Now.AddHours(-0.9);
         var newRequests = database.GetCollection<WatchtowerRequest>("Requests")
             .Find(x => x.ResourceId == resource.Id && x.Timestamp >= last)
             .ToList();
