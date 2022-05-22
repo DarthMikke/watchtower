@@ -25,6 +25,35 @@ public class WatchtowerResource : IWatchtowerResource {
         var collection = Database.GetCollection<WatchtowerRequest>("Requests");
         var filter = new BsonDocument("resource", this.Id);
         Requests = collection.Find(filter).ToList();
+        Requests.Sort(delegate(WatchtowerRequest a, WatchtowerRequest b)
+        {
+            return -a.Timestamp.CompareTo(b.Timestamp);
+        }
+        );
+    }
+
+    /**
+     * -1 – never checked
+     * 0 - OK
+     * 1 – At least 1 resource's response time is above threshold
+     * 2 – At least 1 resource answers with wrong status
+     */
+    public int CurrentStatus {
+        get {
+            if (Requests.Count == 0) {
+                return -1;
+            }
+            if (Requests.First().Status == expectedStatus && Requests.First().ResponseTime <= expectedResponseTime) {
+                return 0;
+            }
+            if (Requests.First().ResponseTime > expectedStatus) {
+                return 1;
+            }
+            if (Requests.First().Status != expectedStatus) {
+                return 2;
+            }
+            return 0;
+        }
     }
 }
 

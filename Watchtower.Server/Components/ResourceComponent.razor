@@ -6,8 +6,10 @@
     <tr>
         <td>
             <button class=@IconClass @onclick="ToggleCollapsed">
-                <i class="bi-caret-down-fill" />
+                @* <i class="bi-caret-down-fill" /> *@
+                @resource.CurrentStatus.ToString()
             </button>
+
         </td>
         <td>
             @resource.method @resource.path
@@ -66,11 +68,6 @@
         this.resource.FetchRequests();
         if (this.resource.Requests == null) return;
         Requests = resource.Requests;
-        Requests.Sort(delegate(WatchtowerRequest a, WatchtowerRequest b)
-        {
-            return -a.Timestamp.CompareTo(b.Timestamp);
-        }
-        );
         loaded = true;
     }
 }
