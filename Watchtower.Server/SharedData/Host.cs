@@ -35,6 +35,18 @@ public class WatchtowerHost: IWatchtowerHost {
      * 2 – At least 1 resource answers with wrong status
      */
     public int CurrentStatus { get {
+        foreach (var resource in Resources)
+        {
+            if (resource.CurrentStatus == 2) {
+                return 2;
+            }
+            if (resource.CurrentStatus == 1) {
+                return 1;
+            }
+            if (resource.CurrentStatus == -1) {
+                return -1;
+            }
+        }
         return 0;
     } }
     public int DailyUptime() {
