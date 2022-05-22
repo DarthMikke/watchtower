@@ -26,7 +26,6 @@ public class WatchtowerRealm : IWatchtowerRealm {
         
         foreach (var host in hosts) {
             host.BindDatabase(Database);
-            host.FetchResources();
         }
 
         Hosts = hosts;

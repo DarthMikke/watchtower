@@ -7,7 +7,7 @@ public class WatchtowerHost: IWatchtowerHost {
     public ObjectId Id { get; set; }
     public string hostname { get; set; }
     public List<WatchtowerResource> Resources { get; set; }
-    public IMongoDatabase Database;
+    private IMongoDatabase Database { get; set; }
 
     public void BindDatabase(IMongoDatabase database) {
         Database = database;
@@ -15,9 +15,17 @@ public class WatchtowerHost: IWatchtowerHost {
 
     public void FetchResources()
     {
+        Console.WriteLine("Fetching resources for host " + hostname);
+        Resources = new List<WatchtowerResource>();
+        
         var collection = Database.GetCollection<WatchtowerResource>("Resources");
         var filter = new BsonDocument("host", this.Id);
-        Resources = collection.Find(filter).ToList();
+        var resources = collection.Find(filter).ToList();
+        foreach (var resource in resources)
+        {
+            resource.BindDatabase(Database);
+            Resources.Add(resource);
+        }
     }
 
     /**
