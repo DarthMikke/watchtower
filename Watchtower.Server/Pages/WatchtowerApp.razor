@@ -11,17 +11,15 @@
     <p>Loading...</p>
 } else {
     <table>
-    @foreach (var host in hosts)
+    @foreach (var host in Realm.Hosts)
     {
-        <HostComponent host=@host client=@client />
+        <HostComponent host=@host client=@Realm.Client />
     }
     </table>
 }
 
 @code {
-    private MongoClient client { get; set; }
-    public IMongoDatabase database { get; set; }
-    public IEnumerable<WatchtowerHost> hosts { get; set; }
+    private WatchtowerRealm Realm;
     public int? hostcount { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -29,21 +27,8 @@
         var currentdir = Directory.GetCurrentDirectory();
         var credentials = System.IO.File.ReadAllText($"{currentdir}/mongodb.txt");
 
-        var settings = MongoClientSettings.FromConnectionString($"mongodb+srv://{credentials}@watchtower.tbosq.mongodb.net/Watchtower?retryWrites=true&w=majority");
-        settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-        client = new MongoClient(settings);
-        database = client.GetDatabase("Main");
-        hosts = database.GetCollection<WatchtowerHost>("Hosts")
-            .Find(x => true)
-            .ToList();
-        hostcount = hosts.Count();
-    }
-
-    protected async void AddHost(MongoClient client)
-    {
-        var host = new WatchtowerHost
-        {
-            hostname = "New Host"
-        };
+        Realm = new WatchtowerRealm(credentials, "Main");
+        Realm.Update();
+        hostcount = Realm.Hosts.Count();
     }
 }

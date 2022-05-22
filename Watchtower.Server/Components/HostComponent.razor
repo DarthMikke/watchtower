@@ -33,7 +33,7 @@
     [ParameterAttribute]
     public WatchtowerHost? host { get; set; }
     [ParameterAttribute]
-    public MongoClient? client { get; set; }
+    public IMongoClient? client { get; set; }
     public List<WatchtowerResource> Resources { get; set; }
     public bool loaded { get; set; }
 

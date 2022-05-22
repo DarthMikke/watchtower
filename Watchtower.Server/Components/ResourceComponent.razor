@@ -41,7 +41,7 @@
     [ParameterAttribute]
     public WatchtowerResource? resource { get; set; }
     [ParameterAttribute]
-    public MongoClient? client { get; set; }
+    public IMongoClient? client { get; set; }
     public List<WatchtowerRequest> Requests { get; set; }
     private bool loaded { get; set; }
 
