@@ -6,10 +6,9 @@
     <tr>
         <td>
             <button class=@IconClass @onclick="ToggleCollapsed">
-                @* <i class="bi-caret-down-fill" /> *@
-                @resource.CurrentStatus.ToString()
+                <i class="bi-caret-down-fill" />
             </button>
-
+            <span class=@StatusDotClass></span>
         </td>
         <td>
             @resource.method @resource.path
@@ -50,6 +49,7 @@
     private bool loaded { get; set; }
 
     private bool Collapsed { get; set; } = true;
+    private string StatusDotClass => "status-dot status-" + (resource?.CurrentStatus.ToString() ?? "unknown");
 
     public string IconClass { get {
         if (this.Collapsed == null) return "btn";
