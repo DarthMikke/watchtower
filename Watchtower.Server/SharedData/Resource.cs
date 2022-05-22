@@ -21,3 +21,13 @@ public class WatchtowerResource {
         return collection.Find(filter).ToList();
     }
 }
+
+interface IWatchtowerResource {
+    public ObjectId Id { get; set; }
+    public ObjectId HostId { get; set; }
+    public string method { get; set; }
+    public string path { get; set; }
+    public int expectedStatus { get; set; }
+    public int expectedResponseTime { get; set; }
+    public List<WatchtowerRequest> Requests;
+}
