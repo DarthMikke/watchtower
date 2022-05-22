@@ -17,7 +17,7 @@ public class WatchtowerHost: IWatchtowerHost {
     {
         Console.WriteLine("Fetching resources for host " + hostname);
         Resources = new List<WatchtowerResource>();
-        
+
         var collection = Database.GetCollection<WatchtowerResource>("Resources");
         var filter = new BsonDocument("host", this.Id);
         var resources = collection.Find(filter).ToList();
@@ -34,9 +34,9 @@ public class WatchtowerHost: IWatchtowerHost {
      * 1 – At least 1 resource's response time is above threshold
      * 2 – At least 1 resource answers with wrong status
      */
-    public int CurrentStatus() {
+    public int CurrentStatus { get {
         return 0;
-    }
+    } }
     public int DailyUptime() {
         return 0;
     }
@@ -51,7 +51,7 @@ interface IWatchtowerHost {
     public string hostname { get; set; }
     public List<WatchtowerResource> Resources { get; set; }
 
-    public int CurrentStatus();
+    public int CurrentStatus { get; }
     public int DailyUptime();
     public int WeeklyUptime();
 }

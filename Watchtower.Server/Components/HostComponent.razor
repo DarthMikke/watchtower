@@ -12,6 +12,7 @@
         <td>@host.hostname</td>
         <td colspan=5>
             <span>@host.Resources.Count @(host.Resources.Count == 1 ? "resource" : "resources")</span>
+            <span class=@StatusDotClass></span>
         </td>
     </tr>
     <tr>
@@ -35,6 +36,8 @@
     [ParameterAttribute]
     public IMongoClient? client { get; set; }
     public bool loaded { get; set; }
+
+    private string StatusDotClass => "status-dot status-" + (host?.CurrentStatus.ToString() ?? "unknown");
 
     protected override async Task OnInitializedAsync()
     {

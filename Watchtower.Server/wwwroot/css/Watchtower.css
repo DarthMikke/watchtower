@@ -19,3 +19,27 @@ thead tr {
 tbody {
     height: fit-content;
 }
+
+.status-dot {
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-dot.status-2 {
+    background: #FF7477;
+}
+
+.status-dot.status-1 {
+    background: #FFEF5C;
+}
+
+.status-dot.status-0 {
+    background: #739E82;
+}
+
+.status-dot.status--1, .status-dot.status-unknown {
+    background: #9DA2AB;
+}
