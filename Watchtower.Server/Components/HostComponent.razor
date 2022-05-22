@@ -11,7 +11,7 @@
         </td>
         <td>@host.hostname</td>
         <td colspan=5>
-            <span>@Resources.Count @(Resources.Count == 1 ? "resource" : "resources")</span>
+            <span>@host.Resources.Count @(host.Resources.Count == 1 ? "resource" : "resources")</span>
         </td>
     </tr>
     <tr>
@@ -23,7 +23,7 @@
         <td>Forventa</td>
         <td>URL</td>
     </tr>
-    @foreach (var resource in Resources)
+    @foreach (var resource in host.Resources)
     {
         <ResourceComponent client=@client resource=@resource />
     }
@@ -34,12 +34,10 @@
     public WatchtowerHost? host { get; set; }
     [ParameterAttribute]
     public IMongoClient? client { get; set; }
-    public List<WatchtowerResource> Resources { get; set; }
     public bool loaded { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Resources = host.Resources(client);
         loaded = true;
     }
 }

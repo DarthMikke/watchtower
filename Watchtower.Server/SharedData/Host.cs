@@ -2,17 +2,38 @@ namespace Watchtower.Data;
 using MongoDB.Driver;
 using MongoDB.Bson;
 
-public class WatchtowerHost {
+public class WatchtowerHost: IWatchtowerHost {
     /* Representation of a host. */
     public ObjectId Id { get; set; }
     public string hostname { get; set; }
+    public List<WatchtowerResource> Resources { get; set; }
+    public IMongoDatabase Database;
 
-    public List<WatchtowerResource> Resources(IMongoClient client)
+    public void BindDatabase(IMongoDatabase database) {
+        Database = database;
+    }
+
+    public void FetchResources()
     {
-        var db = client.GetDatabase("Main");
-        var collection = db.GetCollection<WatchtowerResource>("Resources");
+        var collection = Database.GetCollection<WatchtowerResource>("Resources");
         var filter = new BsonDocument("host", this.Id);
-        return collection.Find(filter).ToList();
+        Resources = collection.Find(filter).ToList();
+    }
+
+    /**
+     * -1 – never checked
+     * 0 - OK
+     * 1 – At least 1 resource's response time is above threshold
+     * 2 – At least 1 resource answers with wrong status
+     */
+    public int CurrentStatus() {
+        return 0;
+    }
+    public int DailyUptime() {
+        return 0;
+    }
+    public int WeeklyUptime() {
+        return 0;
     }
 
 }
