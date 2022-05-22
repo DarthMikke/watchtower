@@ -65,7 +65,6 @@
     protected override async Task OnInitializedAsync()
     {
         if (this.resource == null) return;
-        this.resource.FetchRequests();
         if (this.resource.Requests == null) return;
         Requests = resource.Requests;
         loaded = true;

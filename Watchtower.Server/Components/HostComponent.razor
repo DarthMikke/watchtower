@@ -39,6 +39,10 @@
     protected override async Task OnInitializedAsync()
     {
         host.FetchResources();
+        foreach (var resource in host.Resources)
+        {
+            resource.FetchRequests();
+        }
         loaded = true;
     }
 }
