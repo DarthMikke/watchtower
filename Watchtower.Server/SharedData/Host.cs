@@ -14,4 +14,15 @@ public class WatchtowerHost {
         var filter = new BsonDocument("host", this.Id);
         return collection.Find(filter).ToList();
     }
+
+}
+
+interface IWatchtowerHost {
+    public ObjectId Id { get; set; }
+    public string hostname { get; set; }
+    public List<WatchtowerResource> Resources { get; set; }
+
+    public int CurrentStatus();
+    public int DailyUptime();
+    public int WeeklyUptime();
 }
