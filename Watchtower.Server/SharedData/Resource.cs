@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-public class WatchtowerResource {
+public class WatchtowerResource : IWatchtowerResource {
     /* Representation of a resource. */
     public ObjectId Id { get; set; }
     [BsonElement("host")]
@@ -13,12 +13,18 @@ public class WatchtowerResource {
     public int expectedStatus { get; set; }
     public int expectedResponseTime { get; set; }
 
-    public List<WatchtowerRequest> Requests(IMongoClient client)
-    {
-        var db = client.GetDatabase("Main");
-        var collection = db.GetCollection<WatchtowerRequest>("Requests");
+    public List<WatchtowerRequest> Requests { get; set; }
+    
+    private IMongoDatabase Database;
+    public void BindDatabase(IMongoDatabase database) {
+        Database = database;
+    }
+
+    public void FetchRequests() {
+        Console.WriteLine("Fetching requests for resource " + path);
+        var collection = Database.GetCollection<WatchtowerRequest>("Requests");
         var filter = new BsonDocument("resource", this.Id);
-        return collection.Find(filter).ToList();
+        Requests = collection.Find(filter).ToList();
     }
 }
 
@@ -29,5 +35,5 @@ interface IWatchtowerResource {
     public string path { get; set; }
     public int expectedStatus { get; set; }
     public int expectedResponseTime { get; set; }
-    public List<WatchtowerRequest> Requests;
+    public List<WatchtowerRequest> Requests { get; set; }
 }
