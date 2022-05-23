@@ -12,7 +12,7 @@ public class WatchtowerRealm : IWatchtowerRealm {
     private IMongoDatabase Database;
 
     public WatchtowerRealm(string credentials, string databaseName) {
-        var settings = MongoClientSettings.FromConnectionString($"mongodb+srv://{credentials}@watchtower.tbosq.mongodb.net/Watchtower?retryWrites=true&w=majority");
+        var settings = MongoClientSettings.FromConnectionString(credentials);
         settings.ServerApi = new ServerApi(ServerApiVersion.V1);
         Client = new MongoClient(settings);
         Database = Client.GetDatabase(databaseName);

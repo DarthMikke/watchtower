@@ -27,7 +27,7 @@
         var currentdir = Directory.GetCurrentDirectory();
         var credentials = System.IO.File.ReadAllText($"{currentdir}/mongodb.txt");
 
-        Realm = new WatchtowerRealm(credentials, "Main");
+        Realm = new WatchtowerRealm($"mongodb+srv://{credentials}@watchtower.tbosq.mongodb.net/Watchtower?retryWrites=true&w=majority", "Main");
         Realm.Update();
         hostcount = Realm.Hosts.Count();
     }
