@@ -15,6 +15,11 @@ public class WatchtowerResource : IWatchtowerResource {
 
     public List<WatchtowerRequest> Requests { get; set; }
     
+    [BsonElement("ignore")]
+    public bool? _ignore { get; set; }
+
+    public bool Ignore { get { return _ignore ?? false; } set { _ignore = value; } }
+    
     private IMongoDatabase Database;
     public void BindDatabase(IMongoDatabase database) {
         Database = database;

@@ -1,12 +1,17 @@
 namespace Watchtower.Data;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 public class WatchtowerHost: IWatchtowerHost {
     /* Representation of a host. */
     public ObjectId Id { get; set; }
     public string hostname { get; set; }
     public List<WatchtowerResource> Resources { get; set; }
+    [BsonElement("ignore")]
+    public bool? _ignore { get; set; }
+
+    public bool Ignore { get { return _ignore ?? false; } set { _ignore = value; } }
     private IMongoDatabase Database { get; set; }
 
     public void BindDatabase(IMongoDatabase database) {
