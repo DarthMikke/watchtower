@@ -42,14 +42,17 @@ class Program
         // Get hosts
         crawler.LoadHosts();
         // For every host, get resources
-        var hostCount = crawler.HostCount;
-        Console.WriteLine($"Found {hostCount} {(hostCount == 1 ? "host" : "hosts")}.");
-        foreach (var host in crawler.Hosts)
+        var filteredHosts = crawler.Hosts.Where(x => !x.Ignore);
+        var hostCount = filteredHosts.Count();
+        Console.WriteLine($"Found {hostCount} {(hostCount == 1 ? "host" : "hosts")}. {crawler.Hosts.Count() - hostCount} hosts were ignored.");
+        foreach (var host in filteredHosts)
         {
             host.FetchResources();
-            var resources = host.Resources;
+            var resources = host.Resources.Where(x => !x.Ignore);
             var resourceCount = resources.Count();
-            Console.WriteLine($"Found {resourceCount} resource{(resourceCount == 1 ? "" : "s")} @ {host.hostname} .");
+            var ignoredCount = host.Resources.Count() - resourceCount;
+            Console.Write($"Found {resourceCount} resource{(resourceCount == 1 ? "" : "s")} @ {host.hostname} .");
+            Console.WriteLine($"{ignoredCount} resource{(ignoredCount == 1 ? "" : "s")} were ignored.");
             // For every resource:
             // - Find last request
 
