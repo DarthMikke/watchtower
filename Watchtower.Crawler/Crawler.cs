@@ -11,11 +11,15 @@ public class Crawler
     public IMongoClient client;
     private IMongoDatabase database;
     public IEnumerable<WatchtowerHost>? hosts;
+    public IEnumerable<WatchtowerHost>? Hosts { get { return Realm.Hosts; } }
 
     public IMongoCollection<WatchtowerRequest> requests;
 
     private HttpClient http;
-    
+
+    private WatchtowerRealm Realm;
+    public int HostCount { get { return Realm.Hosts.Count(); } }
+
     public Crawler(string connectionString)
     {
         // Initialize MongoDB connection
@@ -31,6 +35,8 @@ public class Crawler
 
         database = client.GetDatabase("Main");
 
+        Realm = new WatchtowerRealm(connectionString, "Main");
+        Realm.Update();
         Console.WriteLine("Connected successfully.");
 
         requests = database.GetCollection<WatchtowerRequest>("Requests");

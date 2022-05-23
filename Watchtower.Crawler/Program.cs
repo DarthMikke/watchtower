@@ -32,11 +32,12 @@ class Program
         // Get hosts
         crawler.LoadHosts();
         // For every host, get resources
-        var hostCount = crawler.hosts.Count();
+        var hostCount = crawler.HostCount;
         Console.WriteLine($"Found {hostCount} {(hostCount == 1 ? "host" : "hosts")}.");
-        foreach (var host in crawler.hosts)
+        foreach (var host in crawler.Hosts)
         {
-            var resources = host.Resources(crawler.client);
+            host.FetchResources();
+            var resources = host.Resources;
             var resourceCount = resources.Count();
             Console.WriteLine($"Found {resourceCount} resource{(resourceCount == 1 ? "" : "s")} @ {host.hostname} .");
             // For every resource:
