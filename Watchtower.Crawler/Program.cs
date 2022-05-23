@@ -9,6 +9,16 @@ class Program
         // @TODO: Check for the -h / --help command line flag
         if (args.Contains("-h") || args.Contains("--help")) {
             Console.WriteLine("This is a crawler.");
+            Console.WriteLine("Usage: Watchtower.Crawler.exe [options]");
+            Console.WriteLine("Options:");
+            Console.WriteLine("-f, --force\t\tForce the crawler to run even if the last run was less than the threshold (Default 1 hour).");
+            Console.WriteLine("-h, --help\t\tDisplay this help message.");
+            Console.WriteLine("-n, --no-upload\tDo not upload the results to the database.");
+            return;
+        }
+
+        if (args.Contains("-h") || args.Contains("--help")) {
+            Console.WriteLine("This is a crawler.");
             return;
         }
 
@@ -49,7 +59,7 @@ class Program
                 bool canPoll = crawler.canCrawl(resource);
                 
                 // TODO: Check for command line flags.
-                if (!canPoll)
+                if (!canPoll && (!args.Contains("-f") && !args.Contains("--force")))
                 {
                     // - Return if too short time has passed since last execution
                     Console.WriteLine("Polled recently.");
@@ -63,15 +73,22 @@ class Program
                 Console.WriteLine($"Got {response.Status} ({response.ResponseTime} ms), expected {resource.expectedStatus} ({resource.expectedResponseTime} ms).");
 
                 // - upload the result
-                Console.Write("Uploading the result...");
-                try
+                if (args.Contains("-n") || args.Contains("--no-upload"))
                 {
-                    crawler.uploadResponse(response);
-                    Console.WriteLine("OK.");
+                    Console.WriteLine("Skipping upload.");
                 }
-                catch
+                else
                 {
-                    Console.WriteLine("Fail.");
+                    Console.Write("Uploading the result...");
+                    try
+                    {
+                        crawler.uploadResponse(response);
+                        Console.WriteLine("OK.");
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Fail.");
+                    }
                 }
             }
         }
