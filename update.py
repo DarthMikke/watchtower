@@ -29,7 +29,9 @@ if not args.n:
 
 # Compile crawler
 run("rm -r ./bin/crawler/*")
-run("""dotnet build -o ./bin/crawler --no-self-contained Watchtower.Crawler/""", exitIfError=True)
+run("""dotnet build -o ./bin/crawler --no-self-contained ./Watchtower.Crawler/""", exitIfError=True)
 run("ln -s `pwd`/bin/crawler/Watchtower.Crawler ./bin/Watchtower.Crawler", exitIfError=False)
 
 # TODO: Compile server
+
+run("date >> ./bin/last_success.txt")
